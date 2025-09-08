@@ -7,10 +7,11 @@ import com.worex.eventbookingsystem.model.Event;
 import com.worex.eventbookingsystem.repository.EventRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -62,9 +63,11 @@ public class EventService {
     }
 
     // view events
-    public List<EventResponseDTO> findAllEvents() {
-        return eventRepository.findAll().stream()
-                .map(eventMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<EventResponseDTO> findAllEvents(int page, int size) {
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid page or size");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "date"));
+        return eventRepository.findAll(pageable).map(eventMapper::toDTO);
     }
 }

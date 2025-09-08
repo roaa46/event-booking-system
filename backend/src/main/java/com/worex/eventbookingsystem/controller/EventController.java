@@ -3,11 +3,12 @@ package com.worex.eventbookingsystem.controller;
 import com.worex.eventbookingsystem.dto.event.EventRequestDTO;
 import com.worex.eventbookingsystem.dto.event.EventResponseDTO;
 import com.worex.eventbookingsystem.service.EventService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -16,6 +17,7 @@ public class EventController {
     private final EventService eventService;
 
     // create event
+    @Transactional
     @PostMapping
     public ResponseEntity<EventResponseDTO> createEvent(@RequestBody EventRequestDTO eventRequestDTO) {
         EventResponseDTO eventResponseDTO = eventService.saveEvent(eventRequestDTO);
@@ -30,6 +32,7 @@ public class EventController {
     }
 
     // update event
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable Long id, @RequestBody EventRequestDTO eventRequestDTO) {
         EventResponseDTO eventResponseDTO = eventService.updateEvent(id, eventRequestDTO);
@@ -37,6 +40,7 @@ public class EventController {
     }
 
     // delete event
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
@@ -45,8 +49,10 @@ public class EventController {
 
     // view events
     @GetMapping
-    public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
-        List<EventResponseDTO> events = eventService.findAllEvents();
-        return ResponseEntity.ok(events);
+    public ResponseEntity<Page<EventResponseDTO>> getAllEvents( @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Page<EventResponseDTO> eventResponseDTOPage = eventService.findAllEvents(page, size);
+        return ResponseEntity.ok(eventResponseDTOPage);
     }
+
+
 }

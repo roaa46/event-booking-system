@@ -10,11 +10,13 @@ import com.worex.eventbookingsystem.repository.EventRepository;
 import com.worex.eventbookingsystem.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -46,11 +48,16 @@ public class BookingService {
         return bookingMapper.toDTO(saved);
     }
 
-    // view all bookings
+    // view all bookings made by specific user
     // may it needs changes based on authorization *************************************
-    public List<BookingResponseDTO> findAllBookings() {
-        return bookingRepository.findAll().stream()
-                .map(bookingMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<BookingResponseDTO> getBookingsByUser(Long personId, int page, int size) {
+        if (personId == null) {
+            throw new IllegalArgumentException("personId must not be null");
+        }
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid page or size");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "bookingDate"));
+        return bookingRepository.findByPersonId(personId, pageable).map(bookingMapper::toDTO);
     }
 }

@@ -11,4 +11,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Override
     Optional<Event> findById(Long id);
     boolean existsById(Long id);
+
 }
