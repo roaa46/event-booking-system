@@ -12,10 +12,10 @@ import com.worex.eventbookingsystem.security.JwtUtil;
 import com.worex.eventbookingsystem.util.ValidationUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -27,7 +27,7 @@ public class PersonService {
 
     // Register
     @Transactional
-    public PersonResponseDTO createUser(PersonRequestDTO personRequestDTO) {
+    public PersonResponseDTO createPerson(PersonRequestDTO personRequestDTO) {
         if (personRepository.existsByEmail(personRequestDTO.getEmail())) {
             throw new IllegalArgumentException("Email already in use\n");
         }
@@ -82,44 +82,11 @@ public class PersonService {
         return response;
     }
 
-    // Approve Admin
-    @Transactional
-    public PersonResponseDTO approveAdmin(Long adminId) {
-        Person person = personRepository.findById(adminId)
-                .orElseThrow(() -> new IllegalArgumentException("Admin not found"));
-
-        if (person.getRole() != Role.PENDING_ADMIN) {
-            throw new IllegalStateException("Person is not a pending admin");
-        }
-
-        person.setRole(Role.ADMIN);
-        personRepository.save(person);
-
+    // View Profile
+    public PersonResponseDTO getProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        Person person = personRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
         return personMapper.toDTO(person);
-    }
-
-    // Reject admin and set its role to user
-    @Transactional
-    public void rejectAdmin(Long adminId) {
-        Person person = personRepository.findById(adminId)
-                .orElseThrow(() -> new IllegalArgumentException("Admin not found"));
-
-        if (person.getRole() != Role.PENDING_ADMIN) {
-            throw new IllegalStateException("Person is not a pending admin");
-        }
-
-        person.setRole(Role.USER);
-        // personRepository.delete(person); // in case I need to delete it
-        personRepository.save(person);
-    }
-
-    // Get all pending admins
-    @Transactional
-    public List<PersonResponseDTO> getPendingAdmins() {
-        List<Person> pendingAdmins = personRepository.findByRole(Role.PENDING_ADMIN);
-        return pendingAdmins.stream()
-                .map(personMapper::toDTO)
-                .toList();
     }
 
 }

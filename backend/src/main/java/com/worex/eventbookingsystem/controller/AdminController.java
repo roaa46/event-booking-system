@@ -1,9 +1,9 @@
 package com.worex.eventbookingsystem.controller;
 
 import com.worex.eventbookingsystem.dto.person.PersonResponseDTO;
-import com.worex.eventbookingsystem.service.PersonService;
+import com.worex.eventbookingsystem.service.AdminService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,26 +12,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/pending/admins")
 public class AdminController {
-    private final PersonService personService;
+    private final AdminService adminService;
 
     @PutMapping("/{id}")
-    public PersonResponseDTO handleAdminAction(
+    public ResponseEntity<PersonResponseDTO> handleAdminAction(
             @PathVariable Long id,
             @RequestParam String action) {
 
         switch (action.toLowerCase()) {
             case "approve":
-                return personService.approveAdmin(id);
+                return ResponseEntity.ok(adminService.approveAdmin(id));
             case "reject":
-                personService.rejectAdmin(id);
-                return null;
+                adminService.rejectAdmin(id);
+                return ResponseEntity.noContent().build();
             default:
                 throw new IllegalArgumentException("Invalid action. Use 'approve' or 'reject'");
         }
     }
 
     @GetMapping("")
-    public List<PersonResponseDTO> getPendingAdmins() {
-        return personService.getPendingAdmins();
+    public ResponseEntity<List<PersonResponseDTO>> getPendingAdmins() {
+        return ResponseEntity.ok(adminService.getPendingAdmins());
     }
 }
