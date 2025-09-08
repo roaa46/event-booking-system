@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Service
@@ -37,19 +38,18 @@ public class BookingService {
         Booking booking = bookingRepository.findByPersonAndEvent(person, event)
                 .orElse( Booking.builder().person(person)
                 .event(event)
-                .bookingDate(LocalDate.now())
+                .bookingDateTime(LocalDateTime.now())
                 .quantity(1)
                 .build());
 
         booking.setQuantity(booking.getQuantity() + 1);
-        booking.setBookingDate(LocalDate.now());
+        booking.setBookingDateTime(LocalDateTime.now());
 
         Booking saved = bookingRepository.save(booking);
         return bookingMapper.toDTO(saved);
     }
 
     // view all bookings made by specific user
-    // may it needs changes based on authorization *************************************
     public Page<BookingResponseDTO> getBookingsByUser(Long personId, int page, int size) {
         if (personId == null) {
             throw new IllegalArgumentException("personId must not be null");
@@ -57,7 +57,7 @@ public class BookingService {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size");
         }
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "bookingDate"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "bookingDateTime"));
         return bookingRepository.findByPersonId(personId, pageable).map(bookingMapper::toDTO);
     }
 }

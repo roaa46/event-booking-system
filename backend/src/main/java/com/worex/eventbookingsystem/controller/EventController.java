@@ -6,8 +6,10 @@ import com.worex.eventbookingsystem.service.EventService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @AllArgsConstructor
@@ -17,12 +19,17 @@ public class EventController {
     private final EventService eventService;
 
     // create event
-    @Transactional
-    @PostMapping
-    public ResponseEntity<EventResponseDTO> createEvent(@RequestBody EventRequestDTO eventRequestDTO) {
-        EventResponseDTO eventResponseDTO = eventService.saveEvent(eventRequestDTO);
+    @PostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<EventResponseDTO> createEvent(
+            @RequestPart("event") EventRequestDTO eventRequestDTO,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
+
+        EventResponseDTO eventResponseDTO = eventService.saveEvent(eventRequestDTO, imageFile);
         return ResponseEntity.ok(eventResponseDTO);
-    }
+        }
 
     // view event details
     @GetMapping("/{id}")
@@ -32,7 +39,6 @@ public class EventController {
     }
 
     // update event
-    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable Long id, @RequestBody EventRequestDTO eventRequestDTO) {
         EventResponseDTO eventResponseDTO = eventService.updateEvent(id, eventRequestDTO);
@@ -40,7 +46,6 @@ public class EventController {
     }
 
     // delete event
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
@@ -53,6 +58,4 @@ public class EventController {
         Page<EventResponseDTO> eventResponseDTOPage = eventService.findAllEvents(page, size);
         return ResponseEntity.ok(eventResponseDTOPage);
     }
-
-
 }

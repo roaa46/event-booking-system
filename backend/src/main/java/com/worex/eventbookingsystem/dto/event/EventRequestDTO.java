@@ -1,6 +1,7 @@
 package com.worex.eventbookingsystem.dto.event;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ public class EventRequestDTO {
     private String name;
     private String description;
     private String category;
-    private LocalDate date;
+    private ZonedDateTime zonedDateTime;
     private String venue;
     private double price;
     private String image;

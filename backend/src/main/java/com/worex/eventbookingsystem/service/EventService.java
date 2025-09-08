@@ -12,6 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
@@ -21,11 +29,28 @@ public class EventService {
 
     // create event
     @Transactional
-    public EventResponseDTO saveEvent(EventRequestDTO eventRequestDTO) {
+    public EventResponseDTO saveEvent(EventRequestDTO eventRequestDTO, MultipartFile imageFile) {
         Event event = eventMapper.toEntity(eventRequestDTO);
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+                Path uploadDir = Paths.get("uploads");
+                Files.createDirectories(uploadDir);
+
+                Path filePath = uploadDir.resolve(fileName);
+                Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                event.setImage("/uploads/" + fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Error saving image file", e);
+            }
+        }
+
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toDTO(savedEvent);
     }
+
 
     // view event details
     public EventResponseDTO findEvent(Long eventId) {
@@ -44,7 +69,7 @@ public class EventService {
         existingEvent.setName(eventRequestDTO.getName());
         existingEvent.setDescription(eventRequestDTO.getDescription());
         existingEvent.setCategory(eventRequestDTO.getCategory());
-        existingEvent.setDate(eventRequestDTO.getDate());
+        existingEvent.setZonedDateTime(eventRequestDTO.getZonedDateTime());
         existingEvent.setPrice(eventRequestDTO.getPrice());
         existingEvent.setImage(eventRequestDTO.getImage());
         existingEvent.setVenue(eventRequestDTO.getVenue());
@@ -67,7 +92,7 @@ public class EventService {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size");
         }
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "date"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "zonedDateTime"));
         return eventRepository.findAll(pageable).map(eventMapper::toDTO);
     }
 }

@@ -3,7 +3,7 @@ package com.worex.eventbookingsystem.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class Booking {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
     @Column(name = "booking_date", nullable = false)
-    private LocalDate bookingDate;
+    private LocalDateTime bookingDateTime;
     @Column(nullable = false)
     private int quantity = 1;
 }

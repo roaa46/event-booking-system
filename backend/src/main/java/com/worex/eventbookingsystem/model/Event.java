@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 @AllArgsConstructor @NoArgsConstructor
@@ -23,8 +23,8 @@ public class Event {
     private String description;
     @Column(nullable = false, length = 50)
     private String category;
-    @Column(nullable = false)
-    private LocalDate date;
+    @Column(name = "event_date", nullable = false)
+    private ZonedDateTime zonedDateTime;
     @Column(nullable = false, length = 100)
     private String venue;
     @Column(nullable = false)

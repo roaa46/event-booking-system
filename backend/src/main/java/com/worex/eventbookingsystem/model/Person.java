@@ -11,13 +11,7 @@ import java.util.Set;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
 @Entity
-@Table(
-        name = "persons",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        }
-)
+@Table(name = "persons")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
