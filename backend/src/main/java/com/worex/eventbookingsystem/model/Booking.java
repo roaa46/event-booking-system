@@ -5,11 +5,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Builder @AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
 @Entity
 @Table(name = "bookings",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"person_id", "event_id"}

@@ -25,7 +25,7 @@ public class BookingController {
 
     // view bookings by user
     @GetMapping("/persons/{personId}/bookings")
-    public ResponseEntity<Page<BookingResponseDTO>> getPersonBookings(
+    public ResponseEntity<Page<BookingResponseDTO>> getUserBookings(
             @PathVariable Long personId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size

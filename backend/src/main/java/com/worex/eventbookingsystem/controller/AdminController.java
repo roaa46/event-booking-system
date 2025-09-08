@@ -34,5 +34,4 @@ public class AdminController {
     public List<PersonResponseDTO> getPendingAdmins() {
         return personService.getPendingAdmins();
     }
-
 }
