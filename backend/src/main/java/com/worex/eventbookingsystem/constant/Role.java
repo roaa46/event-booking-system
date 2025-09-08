@@ -2,5 +2,6 @@ package com.worex.eventbookingsystem.constant;
 
 public enum Role {
     USER,
-    ADMIN
+    ADMIN,
+    PENDING_ADMIN
 }

@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -49,7 +48,7 @@ public class BookingService {
         return bookingMapper.toDTO(saved);
     }
 
-    // view all bookings made by specific user
+    // view all bookings made by a specific user
     public Page<BookingResponseDTO> getBookingsByUser(Long personId, int page, int size) {
         if (personId == null) {
             throw new IllegalArgumentException("personId must not be null");

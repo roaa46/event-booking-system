@@ -52,6 +52,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/persons/*/bookings").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/api/persons/*/bookings").hasRole("USER")
 
+                        // Pending Admins APIs
+                        .requestMatchers(HttpMethod.PUT, "/api/pending/admins/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/pending/admins").hasRole("ADMIN")
+
                         // Any other request must be authenticated
                         .anyRequest().authenticated()
                 )
