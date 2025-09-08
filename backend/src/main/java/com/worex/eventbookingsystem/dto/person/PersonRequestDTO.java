@@ -14,5 +14,6 @@ public class PersonRequestDTO {
     private String username;
     private String email;
     private String password;
+    private String phone;
     private Role role;
 }

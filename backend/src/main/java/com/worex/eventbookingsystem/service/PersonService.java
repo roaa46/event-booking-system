@@ -9,6 +9,7 @@ import com.worex.eventbookingsystem.mapper.PersonMapper;
 import com.worex.eventbookingsystem.model.Person;
 import com.worex.eventbookingsystem.repository.PersonRepository;
 import com.worex.eventbookingsystem.security.JwtUtil;
+import com.worex.eventbookingsystem.util.ValidationUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,20 @@ public class PersonService {
         }
         if (personRepository.existsByUsername(personRequestDTO.getUsername())) {
             throw new IllegalArgumentException("Username already in use\n");
+        }
+        if (!ValidationUtils.isValidEmail(personRequestDTO.getEmail())) {
+            throw new IllegalArgumentException("Invalid email format. Example: user@example.com\n");
+        }
+        if (!ValidationUtils.isValidUsername(personRequestDTO.getUsername())) {
+            throw new IllegalArgumentException("Invalid username. Username must be 3-30 characters long, letters and numbers only\n");
+        }
+        if (!ValidationUtils.isValidPassword(personRequestDTO.getPassword())) {
+            throw new IllegalArgumentException("Password must have at least 8 chars, upper/lowercase, number, special char\n");
+        }
+        if (!ValidationUtils.isValidPhone(personRequestDTO.getPhone())) {
+            throw new IllegalArgumentException(
+                    "Invalid phone number. Phone must contain only digits, length between 7 and 15\n"
+            );
         }
         Person person = personMapper.toEntity(personRequestDTO);
         // encode password
