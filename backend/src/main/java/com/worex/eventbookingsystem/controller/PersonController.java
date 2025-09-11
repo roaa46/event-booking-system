@@ -4,6 +4,7 @@ import com.worex.eventbookingsystem.dto.login.LoginRequestDTO;
 import com.worex.eventbookingsystem.dto.login.LoginResponseDTO;
 import com.worex.eventbookingsystem.dto.person.PersonRequestDTO;
 import com.worex.eventbookingsystem.dto.person.PersonResponseDTO;
+import com.worex.eventbookingsystem.security.JwtUtil;
 import com.worex.eventbookingsystem.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class PersonController {
     private final PersonService personService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<PersonResponseDTO> register(@RequestBody PersonRequestDTO personRequestDTO) {
@@ -28,9 +30,10 @@ public class PersonController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         LoginResponseDTO loginResponseDTO = personService.login(loginRequestDTO);
-        ResponseCookie jwtCookie = ResponseCookie.from("token", loginResponseDTO.getToken())
+        String token = jwtUtil.generateToken(loginRequestDTO.getEmail());
+        ResponseCookie jwtCookie = ResponseCookie.from("token", token)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .sameSite("Strict")
                 .path("/")
                 .maxAge(24 * 60 * 60)
@@ -40,6 +43,22 @@ public class PersonController {
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(loginResponseDTO);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        ResponseCookie jwtCookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Strict")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body("Logged out successfully");
+    }
+
 
     @GetMapping("/me")
     public ResponseEntity<PersonResponseDTO> viewProfile(@AuthenticationPrincipal UserDetails userDetails) {
