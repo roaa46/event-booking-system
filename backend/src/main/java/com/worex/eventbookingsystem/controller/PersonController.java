@@ -6,6 +6,8 @@ import com.worex.eventbookingsystem.dto.person.PersonRequestDTO;
 import com.worex.eventbookingsystem.dto.person.PersonResponseDTO;
 import com.worex.eventbookingsystem.service.PersonService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +28,20 @@ public class PersonController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         LoginResponseDTO loginResponseDTO = personService.login(loginRequestDTO);
-        return ResponseEntity.ok(loginResponseDTO);
+        ResponseCookie jwtCookie = ResponseCookie.from("token", loginResponseDTO.getToken())
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .path("/")
+                .maxAge(24 * 60 * 60)
+                .build();
+        loginResponseDTO.setToken(null);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(loginResponseDTO);
     }
 
-    @GetMapping("/")
+    @GetMapping("/me")
     public ResponseEntity<PersonResponseDTO> viewProfile(@AuthenticationPrincipal UserDetails userDetails) {
         PersonResponseDTO profile = personService.getProfile(userDetails);
         return ResponseEntity.ok(profile);

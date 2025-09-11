@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;
 
@@ -25,12 +26,25 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
         String token = null;
         String email = null;
 
+        // Authorization header
+        String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
+        }
+
+        // Cookies
+        if (token == null && request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                }
+            }
+        }
+
+        if (token != null) {
             email = jwtUtil.extractEmail(token);
         }
 
@@ -39,8 +53,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (jwtUtil.validateToken(token)) {
                 UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
@@ -48,4 +65,3 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-

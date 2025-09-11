@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class BookingController {
     private final BookingService bookingService;
     private final BookingMapper bookingMapper;
 
     // book event
-    @PostMapping("/persons/{personId}/bookings")
+    @PostMapping("/{personId}/bookings")
     public ResponseEntity<BookingResponseDTO> bookEvent(@PathVariable Long personId, @RequestBody Long eventId) { // change personId when add JWT
         BookingResponseDTO responseDTO = bookingService.bookEvent(eventId, personId);
         return ResponseEntity.ok(responseDTO);
     }
 
     // view bookings by user
-    @GetMapping("/persons/{personId}/bookings")
+    @GetMapping("/{personId}/bookings")
     public ResponseEntity<Page<BookingResponseDTO>> getUserBookings(
             @PathVariable Long personId,
             @RequestParam(defaultValue = "0") int page,
