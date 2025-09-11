@@ -1,0 +1,13 @@
+.cards-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 25px;
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+.cards-container .card {
+  flex: 1 1 300px; 
+  max-width: 320px;
+}

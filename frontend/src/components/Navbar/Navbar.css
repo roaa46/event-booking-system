@@ -1,0 +1,109 @@
+/* Navbar base styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 6px 20px; /* smaller height */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.navbar-logo img {
+  height: 70px; /* smaller logo */
+  width: auto;
+  object-fit: contain;
+}
+
+/* Links */
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-links li a:hover {
+  color: #e92416;
+}
+
+/* Buttons */
+.navbar-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.navbar-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #d4432b;
+  background: #d4432b;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar-btn:hover {
+  background: white;
+  color: #d4432b;
+}
+
+/* Burger menu button (hidden by default) */
+.burger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.burger span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .navbar-links,
+  .navbar-actions {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    background: #fff;
+    position: absolute;
+    top: 55px; /* smaller navbar height */
+    right: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+
+  /* Slide-down animation */
+  .navbar-links.active,
+  .navbar-actions.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .burger {
+    display: flex;
+  }
+}
