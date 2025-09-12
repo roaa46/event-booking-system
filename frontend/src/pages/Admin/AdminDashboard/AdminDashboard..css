@@ -1,0 +1,64 @@
+.dashboard-container {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.dashboard-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  justify-content: center;
+}
+
+/* card styles */
+.card {
+  width: 120px;
+  height: 120px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 12px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+              rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.2s ease-in-out;
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  color: white;
+}
+
+/* specific colors */
+.card1:hover {
+  background-color: #4caf50;
+}
+
+.card2:hover {
+  background-color: #03a9f4;
+}
+
+.card3:hover {
+  background-color: #8c9eff;
+}

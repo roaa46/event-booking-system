@@ -1,32 +1,15 @@
 import './Navbar.css';
-import { useState, useEffect } from 'react';
-import Cookies from 'universal-cookie';
-import {viewProfile, logout } from '../../api/authApi';
+import {logout } from '../../api/authApi';
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const res = await viewProfile(); // GET /auth/me
-        if (res && res.email) {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-        }
-      } catch (err) {
-        setIsLoggedIn(false);
-      }
-    };
-    checkLogin();
-  }, []);
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+    const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logout(); // POST /auth/logout
       setIsLoggedIn(false);
-      window.location.href = '/';
+      navigate("/");
     } catch (err) {
       console.error('Logout failed', err);
     }

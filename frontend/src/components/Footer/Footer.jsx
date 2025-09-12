@@ -21,7 +21,6 @@ function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} Eventify. All rights reserved.</p>
       </div>

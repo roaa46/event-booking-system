@@ -20,26 +20,17 @@ export async function getEventById(id) {
 }
 
 // POST /api/events
-export async function createEvent(event, imageFile) {
-  const formData = new FormData();
-  formData.append("event", new Blob([JSON.stringify(event)], { type: "application/json" }));
-  if (imageFile) {
-    formData.append("image", imageFile);
-  }
-
-  const res = await apiClient.post(API, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
-  });
+export async function createEvent(formData) {
+  const res = await apiClient.post("/events", formData);
   return res.data;
 }
 
-
 // PUT /api/events/{id}
-export async function updateEvent(id, data) {
-  return apiClient.put(`${API}/${id}`, data);
+export async function updateEvent(id, formData) {
+  const res = await apiClient.put(`/events/${id}`, formData);
+  return res.data;
 }
+
 
 // DELETE /api/events/{id}
 export async function deleteEvent(id) {

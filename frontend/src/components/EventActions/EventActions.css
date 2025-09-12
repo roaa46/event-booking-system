@@ -1,0 +1,25 @@
+.event-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid #eee;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.9rem;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn.update { background: #3b82f6; color: white; }
+.btn.delete { background: #ef4444; color: white; }
+.btn.book   { background: #10b981; color: white; }
+.btn.view   { background: #6b7280; color: white; }
+.btn.add-event { background: #6366f1; color: white; margin-bottom: 1rem; }

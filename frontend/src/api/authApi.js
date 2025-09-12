@@ -24,7 +24,7 @@ export async function login(data) {
 
 // POST /api/auth/logout
 export async function logout() {
-  const res = await apiClient.post(`${API}`);
+  const res = await apiClient.post(`${API}/logout`);
   return res.data;
 }
 

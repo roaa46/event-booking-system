@@ -1,4 +1,4 @@
-.login {
+h2 {
     justify-self: center;
     font-family: sans-serif;
     color: #d4432b;
@@ -26,7 +26,9 @@
 }
 
 .form input[type="email"],
-.form input[type="password"] {
+.form input[type="password"],
+.form input[type="tel"],
+.form input[type="text"] {
   border-radius: 0.5rem;
   padding: 1rem 0.75rem;
   width: 100%;
@@ -77,4 +79,30 @@
 
 .span a {
   color: var(--clr);
+}
+
+/* Role */
+.role-selection {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.role-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.role-label img {
+  width: 50px;
+  height: 50px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: border 0.2s;
+}
+
+.role-label img.selected {
+  border-color: #d4432b;
 }

@@ -54,11 +54,13 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
+
 }
 
 .navbar-btn:hover {
   background: white;
   color: #d4432b;
+  cursor: pointer;
 }
 
 /* Burger menu button (hidden by default) */

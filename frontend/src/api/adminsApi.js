@@ -3,7 +3,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  withCredentials: true // to send cookie auto with each request
+  withCredentials: true
 });
 
 const API = "/pending/admins";

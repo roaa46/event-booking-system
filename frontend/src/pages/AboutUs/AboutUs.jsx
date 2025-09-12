@@ -14,7 +14,6 @@ function AboutUs() {
           </p>
         </div>
 
-        {/* Right side - image */}
         <div className="about-image">
           <img src="/src/assets/about.jpg" alt="About Eventify" />
         </div>
