@@ -24,5 +24,5 @@ public class Booking {
     @Column(name = "booking_date", nullable = false)
     private LocalDateTime bookingDateTime;
     @Column(nullable = false)
-    private int quantity = 1;
+    private int quantity = 0;
 }

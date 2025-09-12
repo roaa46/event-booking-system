@@ -1,5 +1,6 @@
 package com.worex.eventbookingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Event {
     @Column(nullable = false, length = 50)
     private String category;
     @Column(name = "event_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "UTC")
     private ZonedDateTime zonedDateTime;
     @Column(nullable = false, length = 100)
     private String venue;

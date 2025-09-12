@@ -31,6 +31,21 @@ public class EventController {
         return ResponseEntity.ok(eventResponseDTO);
         }
 
+    // update event
+    @PutMapping(
+            value = "/{id}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<EventResponseDTO> updateEvent(
+            @PathVariable Long id,
+            @RequestPart("event") EventRequestDTO eventRequestDTO,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
+
+        EventResponseDTO eventResponseDTO = eventService.updateEvent(id, eventRequestDTO, imageFile);
+        return ResponseEntity.ok(eventResponseDTO);
+    }
+
     // view event details
     @GetMapping("/{id}")
     public ResponseEntity<EventResponseDTO> getEvent(@PathVariable Long id) {
@@ -38,12 +53,7 @@ public class EventController {
         return ResponseEntity.ok(eventResponseDTO);
     }
 
-    // update event
-    @PutMapping("/{id}")
-    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable Long id, @RequestBody EventRequestDTO eventRequestDTO) {
-        EventResponseDTO eventResponseDTO = eventService.updateEvent(id, eventRequestDTO);
-        return ResponseEntity.ok(eventResponseDTO);
-    }
+
 
     // delete event
     @DeleteMapping("/{id}")

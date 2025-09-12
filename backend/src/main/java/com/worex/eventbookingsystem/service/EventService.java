@@ -51,6 +51,40 @@ public class EventService {
         return eventMapper.toDTO(savedEvent);
     }
 
+    // update event
+    @Transactional
+    public EventResponseDTO updateEvent(Long eventId, EventRequestDTO eventRequestDTO, MultipartFile imageFile) {
+        Event existingEvent = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+
+        // update basic fields
+        existingEvent.setName(eventRequestDTO.getName());
+        existingEvent.setDescription(eventRequestDTO.getDescription());
+        existingEvent.setCategory(eventRequestDTO.getCategory());
+        existingEvent.setZonedDateTime(eventRequestDTO.getZonedDateTime());
+        existingEvent.setPrice(eventRequestDTO.getPrice());
+        existingEvent.setVenue(eventRequestDTO.getVenue());
+
+        // handle image if new one is uploaded
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+                Path uploadDir = Paths.get("uploads");
+                Files.createDirectories(uploadDir);
+
+                Path filePath = uploadDir.resolve(fileName);
+                Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                existingEvent.setImage("/uploads/" + fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Error saving image file", e);
+            }
+        }
+
+        Event updatedEvent = eventRepository.save(existingEvent);
+        return eventMapper.toDTO(updatedEvent);
+    }
+
 
     // view event details
     public EventResponseDTO findEvent(Long eventId) {
@@ -59,24 +93,7 @@ public class EventService {
         return eventMapper.toDTO(event);
     }
 
-    // update event
-    @Transactional
-    public EventResponseDTO updateEvent(Long eventId, EventRequestDTO eventRequestDTO) {
-        Event existingEvent = eventRepository.findById(eventId)
-                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
 
-        // update fields
-        existingEvent.setName(eventRequestDTO.getName());
-        existingEvent.setDescription(eventRequestDTO.getDescription());
-        existingEvent.setCategory(eventRequestDTO.getCategory());
-        existingEvent.setZonedDateTime(eventRequestDTO.getZonedDateTime());
-        existingEvent.setPrice(eventRequestDTO.getPrice());
-        existingEvent.setImage(eventRequestDTO.getImage());
-        existingEvent.setVenue(eventRequestDTO.getVenue());
-
-        Event updatedEvent = eventRepository.save(existingEvent);
-        return eventMapper.toDTO(updatedEvent);
-    }
 
     // delete event
     @Transactional
