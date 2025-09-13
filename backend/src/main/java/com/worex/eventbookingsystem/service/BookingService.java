@@ -38,7 +38,7 @@ public class BookingService {
                 .orElse( Booking.builder().person(person)
                 .event(event)
                 .bookingDateTime(LocalDateTime.now())
-                .quantity(1)
+                .quantity(0)
                 .build());
 
         booking.setQuantity(booking.getQuantity() + 1);

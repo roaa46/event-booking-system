@@ -30,8 +30,7 @@ public class PersonController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         LoginResponseDTO loginResponseDTO = personService.login(loginRequestDTO);
-        String token = jwtUtil.generateToken(loginRequestDTO.getEmail());
-        ResponseCookie jwtCookie = ResponseCookie.from("token", token)
+        ResponseCookie jwtCookie = ResponseCookie.from("token", loginResponseDTO.getToken())
                 .httpOnly(true)
                 .secure(false)
                 .sameSite("Strict")
@@ -58,7 +57,6 @@ public class PersonController {
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body("Logged out successfully");
     }
-
 
     @GetMapping("/me")
     public ResponseEntity<PersonResponseDTO> viewProfile(@AuthenticationPrincipal UserDetails userDetails) {

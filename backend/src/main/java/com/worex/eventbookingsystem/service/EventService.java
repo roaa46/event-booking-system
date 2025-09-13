@@ -32,7 +32,7 @@ public class EventService {
     public EventResponseDTO saveEvent(EventRequestDTO eventRequestDTO, MultipartFile imageFile) {
         Event event = eventMapper.toEntity(eventRequestDTO);
 
-        if (imageFile != null && !imageFile.isEmpty()) {
+        if (imageFile != null && !imageFile.isEmpty()) { // no file is sent && no content in the file
             try {
                 String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
                 Path uploadDir = Paths.get("uploads");

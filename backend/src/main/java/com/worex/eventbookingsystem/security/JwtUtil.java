@@ -2,18 +2,29 @@ package com.worex.eventbookingsystem.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
+
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "mysecretkeymysecretkeymysecretkey123";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
+    private String SECRET;
+    private long EXPIRATION_TIME;
+    private Key key;
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    public JwtUtil(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.expiration}") long expirationTime
+    ) {
+        this.SECRET = secret;
+        this.EXPIRATION_TIME = expirationTime;
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateToken(String email) {
         return Jwts.builder()
@@ -42,4 +53,3 @@ public class JwtUtil {
         }
     }
 }
-

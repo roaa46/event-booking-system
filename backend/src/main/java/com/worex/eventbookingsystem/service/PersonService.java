@@ -12,7 +12,6 @@ import com.worex.eventbookingsystem.security.JwtUtil;
 import com.worex.eventbookingsystem.util.ValidationUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -75,15 +74,12 @@ public class PersonService {
         response.setId(person.getId());
         response.setUsername(person.getUsername());
         response.setRole(person.getRole().name());
-        response.setFirstName(person.getFirstName());
-        response.setLastName(person.getLastName());
-        response.setPhone(person.getPhone());
         response.setToken(token);
         return response;
     }
 
     // View Profile
-    public PersonResponseDTO getProfile(@AuthenticationPrincipal UserDetails userDetails) {
+    public PersonResponseDTO getProfile( UserDetails userDetails) {
         Person person = personRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
         return personMapper.toDTO(person);
