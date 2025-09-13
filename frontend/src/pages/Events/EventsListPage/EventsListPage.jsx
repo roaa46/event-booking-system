@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getEvents, deleteEvent } from "../../../api/eventsApi";
 import { bookEvent, getUserBookings } from "../../../api/bookingsApi";
-import EventCard from "../../../components/EventCard/EventCard";
+import EventCard from "../../../components/Cards/EventCard";
 import BackToButton from "../../../components/BackToButton/BackToButton";
 import { useNavigate } from "react-router-dom";
-import "./EventsListPage.css";
+import "../../../css/Lists.css";
 import useAuth from "../../../hooks/useAuth";
 import Notification from "../../../components/Notification/Notification";
 
@@ -71,53 +71,50 @@ export default function EventsListPage() {
   }
 
   return (
-    <div className="events-page">
-      {user.role === "USER" && (
-        <div className="view-bookings-container">
-          <button className="btn" onClick={() => navigate("/bookings")}>
-            View Bookings
-          </button>
-          <button className="btn" onClick={() => navigate("/profile")}>
-            View Profile
-          </button>
-        </div>
-      )}
-      {user.role === "ADMIN" && <BackToButton />}
-
-      {user.role === "ADMIN" && (
-        <div className="add-event-container">
-          <button
-            className="btn"
-            onClick={() => navigate("/admins/events/add")}
-          >
-            Add Event
-          </button>
-        </div>
-      )}
-
-      <div className="events-grid">
-        {events.map((event) => (
-          <EventCard
-            key={event.id}
-            event={event}
-            role={user.role}
-            onUpdate={() => navigate(`/admins/events/update/${event.id}`)}
-            onDelete={() => handleDelete(event.id)}
-            onBook={() => handleBook(event.id)}
-            onView={() => navigate(`/events/${event.id}`)}
-          />
-        ))}
+  <div className="page-events">
+    {user.role === "USER" && (
+      <div className="view-bookings-container">
+        <button className="btn" onClick={() => navigate("/bookings")}>
+          View Bookings
+        </button>
+        <button className="btn" onClick={() => navigate("/profile")}>
+          View Profile
+        </button>
       </div>
+    )}
+    {user.role === "ADMIN" && <BackToButton />}
 
-      {notification && (
-        <Notification
-          type={notification.type}
-          title={notification.title}
-          message={notification.message}
-          actions={notification.actions}
-          onClose={() => setNotification(null)}
+    {user.role === "ADMIN" && (
+      <div className="add-event-container">
+        <button className="btn" onClick={() => navigate("/admins/events/add")}>
+          Add Event
+        </button>
+      </div>
+    )}
+
+    <div className="grid-events">
+      {events.map((event) => (
+        <EventCard
+          key={event.id}
+          event={event}
+          role={user.role}
+          onUpdate={() => navigate(`/admins/events/update/${event.id}`)}
+          onDelete={() => handleDelete(event.id)}
+          onBook={() => handleBook(event.id)}
+          onView={() => navigate(`/events/${event.id}`)}
         />
-      )}
+      ))}
     </div>
-  );
+
+    {notification && (
+      <Notification
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+        actions={notification.actions}
+        onClose={() => setNotification(null)}
+      />
+    )}
+  </div>
+);
 }

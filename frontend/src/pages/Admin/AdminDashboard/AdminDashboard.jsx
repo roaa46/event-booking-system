@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard..css";
 
@@ -10,10 +9,7 @@ export default function AdminDashboard() {
       <h2 className="dashboard-title">Admin Dashboard</h2>
       <div className="dashboard-main">
         <div className="dashboard-row">
-          <button
-            className="card card1"
-            onClick={() => navigate("/events")}
-          >
+          <button className="card card1" onClick={() => navigate("/events")}>
             Events
           </button>
           <button
@@ -24,10 +20,7 @@ export default function AdminDashboard() {
           </button>
         </div>
         <div className="dashboard-row">
-          <button
-            className="card card3"
-            onClick={() => navigate("/profile")}
-          >
+          <button className="card card3" onClick={() => navigate("/profile")}>
             View Profile
           </button>
         </div>

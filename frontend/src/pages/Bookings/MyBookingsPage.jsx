@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getUserBookings } from "../../api/bookingsApi"
-import BookingCard from "../../components/BookingCard/BookingCard"
+import BookingCard from "../../components/Cards/BookingCard";
 import useAuth from "../../hooks/useAuth";
 import BackToButton from "../../components/BackToButton/BackToButton";
-import "./MyBookingsPage.css";
+import "../../css/Lists.css";
 
 export default function MyBookingsPage() {
   const { user, loading } = useAuth();
@@ -30,18 +30,18 @@ export default function MyBookingsPage() {
   if (error) return <p className="error-text">{error}</p>;
 
   return (
-    <div className="my-bookings-page">
-      <h2>My Bookings</h2>
-      <BackToButton/>
-      {bookings.length === 0 ? (
-        <p>No bookings yet.</p>
-      ) : (
-        <div className="bookings-grid">
-          {bookings.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  <div className="page-bookings">
+    <h2>My Bookings</h2>
+    <BackToButton/>
+    {bookings.length === 0 ? (
+      <p>No bookings yet.</p>
+    ) : (
+      <div className="grid-bookings">
+        {bookings.map((booking) => (
+          <BookingCard key={booking.id} booking={booking} />
+        ))}
+      </div>
+    )}
+  </div>
+);
 }
