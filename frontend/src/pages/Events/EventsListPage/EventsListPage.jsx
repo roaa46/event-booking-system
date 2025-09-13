@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getEvents, deleteEvent } from "../../../api/eventsApi";
 import { bookEvent, getUserBookings } from "../../../api/bookingsApi";
 import EventCard from "../../../components/EventCard/EventCard";
-import BackToDashboardButton from "../../../components/BackToDashboardButton/BackToDashboardButton";
+import BackToButton from "../../../components/BackToButton/BackToButton";
 import { useNavigate } from "react-router-dom";
 import "./EventsListPage.css";
 import useAuth from "../../../hooks/useAuth";
@@ -82,7 +82,7 @@ export default function EventsListPage() {
           </button>
         </div>
       )}
-      {user.role === "ADMIN" && <BackToDashboardButton />}
+      {user.role === "ADMIN" && <BackToButton />}
 
       {user.role === "ADMIN" && (
         <div className="add-event-container">

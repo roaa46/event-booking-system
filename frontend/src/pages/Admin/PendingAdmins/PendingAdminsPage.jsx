@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPendingAdmins, handleAdminAction } from "../../../api/adminsApi";
 import "./PendingAdminsPage.css";
-import BackToDashboardButton from "../../../components/BackToDashboardButton/BackToDashboardButton";
+import BackToButton from "../../../components/BackToButton/BackToButton";
 import useAuth from "../../../hooks/useAuth";
 
 export default function PendingAdminsPage() {
@@ -39,7 +39,7 @@ export default function PendingAdminsPage() {
   return (
     <div className="pending-admins">
       <h2 className="page-title">Pending Admins</h2>
-      <BackToDashboardButton />
+      <BackToButton />
       {admins.length === 0 ? (
         <p className="empty-text">No pending admins found</p>
       ) : (

@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { createEvent, updateEvent, getEventById } from "../../../api/eventsApi";
-import BackToDashboardButton from "../../../components/BackToDashboardButton/BackToDashboardButton";
+import BackToButton from "../../../components/BackToButton/BackToButton";
 import "./EventFormPage.css";
 
 export default function EventFormPage() {
   const { user, loading } = useAuth("ADMIN");
-  const [dateTime, setDateTime] = useState("");
   const { eventId } = useParams();
   const navigate = useNavigate();
 
@@ -101,7 +100,7 @@ export default function EventFormPage() {
 
   return (
     <div className="event-form-page">
-      <BackToDashboardButton />
+      <BackToButton />
       <h2 className="form-title">
         {eventId ? "Update Event" : "Add New Event"}
       </h2>

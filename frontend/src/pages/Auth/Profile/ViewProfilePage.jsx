@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { viewProfile } from "../../../api/authApi";
 import "./ViewProfilePage.css";
-import BackToDashboardButton from "../../../components/BackToDashboardButton/BackToDashboardButton";
+import BackToButton from "../../../components/BackToButton/BackToButton";
 
 export default function ViewProfile() {
   const [profile, setProfile] = useState(null);
@@ -28,7 +28,7 @@ export default function ViewProfile() {
   return (
     <div className="profile">
       <h2 className="profile__title">My Profile</h2>
-      <BackToDashboardButton/>
+      <BackToButton/>
       {profile ? (
         <div className="profile__card">
           <p><span className="profile__label">First Name:</span> {profile.firstName}</p>

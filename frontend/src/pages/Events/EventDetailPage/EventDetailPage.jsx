@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getEventById } from "../../../api/eventsApi";
-import BackToDashboardButton from "../../../components/BackToDashboardButton/BackToDashboardButton";
+import BackToButton from "../../../components/BackToButton/BackToButton";
 import "./EventDetailPage.css";
 
 export default function EventDetailPage() {
@@ -32,7 +32,7 @@ export default function EventDetailPage() {
 
   return (
     <div className="event-detail-page">
-      <BackToDashboardButton />
+      <BackToButton />
       <h2 className="event-title">{event.name}</h2>
 
       <img

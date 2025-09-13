@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserBookings } from "../../api/bookingsApi"
 import BookingCard from "../../components/BookingCard/BookingCard"
 import useAuth from "../../hooks/useAuth";
-import BackToDashboardButton from "../../components/BackToDashboardButton/BackToDashboardButton";
+import BackToButton from "../../components/BackToButton/BackToButton";
 import "./MyBookingsPage.css";
 
 export default function MyBookingsPage() {
@@ -32,7 +32,7 @@ export default function MyBookingsPage() {
   return (
     <div className="my-bookings-page">
       <h2>My Bookings</h2>
-      <BackToDashboardButton/>
+      <BackToButton/>
       {bookings.length === 0 ? (
         <p>No bookings yet.</p>
       ) : (
