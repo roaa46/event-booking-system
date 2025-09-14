@@ -121,7 +121,6 @@ export default function RegisterPage() {
             id="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            required
           />
         </span>
 

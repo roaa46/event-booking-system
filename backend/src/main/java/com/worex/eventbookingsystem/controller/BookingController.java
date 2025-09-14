@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class BookingController {
     private final BookingService bookingService;
-    private final BookingMapper bookingMapper;
 
     // book event
     @PostMapping("/{personId}/bookings")

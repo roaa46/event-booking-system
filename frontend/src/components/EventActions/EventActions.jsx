@@ -15,6 +15,7 @@ export default function EventActions({ role, onUpdate, onDelete, onBook, onView 
           <button className="btn view" onClick={onView}>View</button>
         </>
       )}
+
     </div>
   );
 }

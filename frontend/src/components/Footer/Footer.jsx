@@ -1,4 +1,5 @@
 import "./Footer.css";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -10,14 +11,14 @@ function Footer() {
         </div>
 
         <ul className="footer-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
         </ul>
 
         <div className="footer-socials">
-          <a href="#"><i className="fab fa-facebook-f"></i></a>
-          <a href="#"><i className="fab fa-twitter"></i></a>
-          <a href="#"><i className="fab fa-instagram"></i></a>
+          <Link to="#"><i className="fab fa-facebook-f"></i></Link>
+          <Link to="#"><i className="fab fa-twitter"></i></Link>
+          <Link to="#"><i className="fab fa-instagram"></i></Link>
         </div>
       </div>
 

@@ -68,4 +68,6 @@ public class EventController {
         Page<EventResponseDTO> eventResponseDTOPage = eventService.findAllEvents(page, size);
         return ResponseEntity.ok(eventResponseDTOPage);
     }
+
+
 }

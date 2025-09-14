@@ -1,6 +1,8 @@
 package com.worex.eventbookingsystem.repository;
 
 import com.worex.eventbookingsystem.model.Event;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Optional<Event> findById(Long id);
     boolean existsById(Long id);
 
+    @Override
+    Page<Event> findAll(Pageable pageable);
 }

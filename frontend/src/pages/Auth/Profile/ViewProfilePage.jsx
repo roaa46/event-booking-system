@@ -22,6 +22,7 @@ export default function ViewProfile() {
     fetchProfile();
   }, []);
 
+
   if (loading) return <p className="profile__loading">Loading profile...</p>;
   if (error) return <p className="profile__error">{error}</p>;
 
@@ -35,8 +36,11 @@ export default function ViewProfile() {
           <p><span className="profile__label">Last Name:</span> {profile.lastName}</p>
           <p><span className="profile__label">Username:</span> {profile.username}</p>
           <p><span className="profile__label">Email:</span> {profile.email}</p>
-          <p><span className="profile__label">Phone:</span> {profile.phone}</p>
+          {profile.phone && (
+            <p><span className="profile__label">Phone:</span> {profile.phone}</p>
+          )}
           <p><span className="profile__label">Role:</span> {profile.role}</p>
+
         </div>
       ) : (
         <p className="profile__empty">No profile data available</p>

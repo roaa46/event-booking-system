@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class PersonController {
     private final PersonService personService;
-    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<PersonResponseDTO> register(@RequestBody PersonRequestDTO personRequestDTO) {
@@ -63,4 +62,6 @@ public class PersonController {
         PersonResponseDTO profile = personService.getProfile(userDetails);
         return ResponseEntity.ok(profile);
     }
+
+
 }

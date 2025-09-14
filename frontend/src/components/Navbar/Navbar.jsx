@@ -1,6 +1,6 @@
 import './Navbar.css';
 import {logout } from '../../api/authApi';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     return (
         <nav className="navbar">
         <div className="navbar-logo">
-        <a href="/">
+        <Link to="/">
           <svg xmlns="http://www.w3.org/2000/svg" width="180" height="40" viewBox="0 0 180 40" role="img" aria-label="Eventify logo">
                         {/* Pin shape */}
                         <path d="M20 4a10 10 0 0 0-10 10c0 6 10 18 10 18s10-12 10-18a10 10 0 0 0-10-10z"
@@ -47,11 +47,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                               fontSize="18" fontWeight="600" fill="#0B2545">Eventify</text>
                     </svg>
 
-        </a>
+        </Link>
         </div>
         <ul className="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About Us</a></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About Us</Link></li>
+          {isLoggedIn && <li><Link to="/events">Events</Link></li>}
         </ul>
         <div className="navbar-actions">
                 {isLoggedIn ? (
@@ -62,7 +63,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                         <a href="/register" className="navbar-btn">Register</a>
                     </>
                 )}
-            </div>
+        </div>
       </nav>
     );
 };

@@ -33,3 +33,9 @@ export async function viewProfile() {
   const res = await apiClient.get(`${API}/me`);
   return res.data;
 }
+
+// DELETE /api/auth/{id}
+export async function deleteProfile() {
+  const res = await apiClient.delete("${API}/me");
+  return res.data;
+}
