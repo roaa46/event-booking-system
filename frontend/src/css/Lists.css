@@ -39,6 +39,20 @@
   margin-bottom: 1.5rem;
 }
 
+.no-events-msg {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #444;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
 /* Buttons */
 .btn {
   background-color: #2563eb;

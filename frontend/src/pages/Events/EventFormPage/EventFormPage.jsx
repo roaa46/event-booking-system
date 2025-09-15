@@ -23,31 +23,30 @@ export default function EventFormPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-  if (eventId) {
-    const fetchEvent = async () => {
-      try {
-        const res = await getEventById(eventId);
-        const event = res.data || res;
-        setFormData({
-          name: event.name || "",
-          description: event.description || "",
-          category: event.category || "",
-          zonedDateTime: event.zonedDateTime
-            ? event.zonedDateTime.slice(0, 16)
-            : "",
-          venue: event.venue || "",
-          price: event.price || "",
-          image: event.imageUrl || "",
-        });
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load event data");
-      }
-    };
-    fetchEvent();
-  }
-}, [eventId]);
-
+    if (eventId) {
+      const fetchEvent = async () => {
+        try {
+          const res = await getEventById(eventId);
+          const event = res.data || res;
+          setFormData({
+            name: event.name || "",
+            description: event.description || "",
+            category: event.category || "",
+            zonedDateTime: event.zonedDateTime
+              ? event.zonedDateTime.slice(0, 16)
+              : "",
+            venue: event.venue || "",
+            price: event.price || "",
+            image: event.imageUrl || "",
+          });
+        } catch (err) {
+          console.error(err);
+          setError("Failed to load event data");
+        }
+      };
+      fetchEvent();
+    }
+  }, [eventId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,46 +54,44 @@ export default function EventFormPage() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setSaving(true);
-  setError("");
+    e.preventDefault();
+    setSaving(true);
+    setError("");
 
-  try {
-    const eventData = {
-      name: formData.name,
-      description: formData.description,
-      category: formData.category,
-      zonedDateTime: new Date(formData.zonedDateTime).toISOString(),
-      venue: formData.venue,
-      price: formData.price,
-    };
+    try {
+      const eventData = {
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        zonedDateTime: new Date(formData.zonedDateTime).toISOString(),
+        venue: formData.venue,
+        price: formData.price,
+      };
 
-    const payload = new FormData();
-    payload.append(
-      "event",
-      new Blob([JSON.stringify(eventData)], { type: "application/json" })
-    );
+      const payload = new FormData();
+      payload.append(
+        "event",
+        new Blob([JSON.stringify(eventData)], { type: "application/json" })
+      );
 
-    if (formData.image && formData.image instanceof File) {
-      payload.append("image", formData.image);
+      if (formData.image && formData.image instanceof File) {
+        payload.append("image", formData.image);
+      }
+
+      if (eventId) {
+        await updateEvent(eventId, payload);
+      } else {
+        await createEvent(payload);
+      }
+
+      navigate("/events");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to save event");
+    } finally {
+      setSaving(false);
     }
-
-    if (eventId) {
-      await updateEvent(eventId, payload);
-    } else {
-      await createEvent(payload);
-    }
-
-    navigate("/events");
-  } catch (err) {
-    console.error(err);
-    setError("Failed to save event");
-  } finally {
-    setSaving(false);
-  }
-};
-
-
+  };
 
   if (loading) return <p>Checking permissions...</p>;
 
@@ -134,14 +131,21 @@ export default function EventFormPage() {
 
         <div className="form-group">
           <label htmlFor="category">Category</label>
-          <input
+          <select
             id="category"
             name="category"
             value={formData.category}
             onChange={handleChange}
             className="form-input"
             required
-          />
+          >
+            <option value="">-- Select Category --</option>
+            <option value="Music">Music</option>
+            <option value="Sports">Sports</option>
+            <option value="Tech">Tech</option>
+            <option value="Education">Education</option>
+            <option value="Art">Art</option>
+          </select>
         </div>
 
         <div className="form-group">

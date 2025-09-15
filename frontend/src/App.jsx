@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import { useState } from "react";
 
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
@@ -17,10 +16,9 @@ import EventDetailPage from './pages/Events/EventDetailPage/EventDetailPage'
 import MyBookingsPage from './pages/Bookings/MyBookingsPage';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
-    <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+    <Navbar/>
 
     <Routes>
         <Route path="/" element= {
@@ -32,7 +30,7 @@ function App() {
         } />
 
         <Route path="/login" element= {
-          <LoginPage setIsLoggedIn={setIsLoggedIn}/>
+          <LoginPage/>
         } />
 
         <Route path="/register" element= {

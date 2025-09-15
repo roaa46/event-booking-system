@@ -85,4 +85,12 @@ public class PersonService {
         return personMapper.toDTO(person);
     }
 
+    // Delete Account
+    @Transactional
+    public void deleteAccount(UserDetails userDetails) {
+        Person person = personRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        personRepository.delete(person);
+    }
+
 }

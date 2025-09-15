@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { login } from "../../../api/authApi";
+import { login as loginAPI } from "../../../api/authApi";
 import "./LoginPage.css";
 import Cookies from "universal-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
-export default function LoginPage({ setIsLoggedIn }) {
+export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const cookies = new Cookies();
 
   const handleSubmit = async (e) => {
@@ -17,11 +18,11 @@ export default function LoginPage({ setIsLoggedIn }) {
     try {
       cookies.remove("token", { path: "/" });
 
-      const res = await login({ email, password });
+      const res = await loginAPI({ email, password });
 
       cookies.set("token", res.token, { path: "/", maxAge: 60 * 60 * 24 });
 
-      setIsLoggedIn(true);
+      login({ email: res.email, role: res.role, username: res.username }); // instead of setIsLoggedIn
 
       if (res.role === "ADMIN") {
         navigate("/admins/dashboard");
@@ -75,7 +76,7 @@ export default function LoginPage({ setIsLoggedIn }) {
         <input className="submit" type="submit" value="Log in" />
 
         <span className="span">
-          Don't have an account? <a href="/register">Sign up</a>
+          Don't have an account? <Link to="/register">Sign up</Link>
         </span>
       </form>
     </div>

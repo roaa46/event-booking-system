@@ -63,5 +63,21 @@ public class PersonController {
         return ResponseEntity.ok(profile);
     }
 
+    @DeleteMapping("/me")
+    public ResponseEntity<String> deleteAccount(@AuthenticationPrincipal UserDetails userDetails) {
+        personService.deleteAccount(userDetails);
+
+        ResponseCookie jwtCookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Strict")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body("Account deleted successfully");
+    }
 
 }

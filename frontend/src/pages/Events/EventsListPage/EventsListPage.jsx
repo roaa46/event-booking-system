@@ -71,50 +71,61 @@ export default function EventsListPage() {
   }
 
   return (
-  <div className="page-events">
-    {user.role === "USER" && (
-      <div className="view-bookings-container">
-        <button className="btn" onClick={() => navigate("/bookings")}>
-          View Bookings
-        </button>
-        <button className="btn" onClick={() => navigate("/profile")}>
-          View Profile
-        </button>
-      </div>
-    )}
-    {user.role === "ADMIN" && <BackToButton />}
+    <div className="page-events">
+      {user.role === "USER" && (
+        <div className="view-bookings-container">
+          <button className="btn" onClick={() => navigate("/bookings")}>
+            View Bookings
+          </button>
+          <button className="btn" onClick={() => navigate("/profile")}>
+            View Profile
+          </button>
+        </div>
+      )}
+      {user.role === "ADMIN" && <BackToButton />}
 
-    {user.role === "ADMIN" && (
-      <div className="add-event-container">
-        <button className="btn" onClick={() => navigate("/admins/events/add")}>
-          Add Event
-        </button>
-      </div>
-    )}
+      {user.role === "ADMIN" && (
+        <div className="add-event-container">
+          <button
+            className="btn"
+            onClick={() => navigate("/admins/events/add")}
+          >
+            Add Event
+          </button>
+        </div>
+      )}
 
-    <div className="grid-events">
-      {events.map((event) => (
-        <EventCard
-          key={event.id}
-          event={event}
-          role={user.role}
-          onUpdate={() => navigate(`/admins/events/update/${event.id}`)}
-          onDelete={() => handleDelete(event.id)}
-          onBook={() => handleBook(event.id)}
-          onView={() => navigate(`/events/${event.id}`)}
+      <div className="grid-events">
+        {events.length === 0 ? (
+          <p className="no-events-msg">
+            {user?.role === "ADMIN"
+              ? "You haven’t created any events yet. Start by adding a new one!"
+              : "There are no upcoming events right now. stay tuned!"}
+          </p>
+        ) : (
+          events.map((event) => (
+            <EventCard
+              key={event.id}
+              event={event}
+              role={user.role}
+              onUpdate={() => navigate(`/admins/events/update/${event.id}`)}
+              onDelete={() => handleDelete(event.id)}
+              onBook={() => handleBook(event.id)}
+              onView={() => navigate(`/events/${event.id}`)}
+            />
+          ))
+        )}
+      </div>
+
+      {notification && (
+        <Notification
+          type={notification.type}
+          title={notification.title}
+          message={notification.message}
+          actions={notification.actions}
+          onClose={() => setNotification(null)}
         />
-      ))}
+      )}
     </div>
-
-    {notification && (
-      <Notification
-        type={notification.type}
-        title={notification.title}
-        message={notification.message}
-        actions={notification.actions}
-        onClose={() => setNotification(null)}
-      />
-    )}
-  </div>
-);
+  );
 }

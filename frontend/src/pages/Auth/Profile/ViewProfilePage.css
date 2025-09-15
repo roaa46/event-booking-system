@@ -56,3 +56,24 @@
 .profile__empty {
   color: #999;
 }
+
+.profile__deleteBtn {
+  margin-top: 1rem;
+  padding: 10px 15px;
+  background-color: #d9534f;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.profile__deleteBtn:hover {
+  background-color: #c9302c;
+}
+
+.profile__deleteBtn:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}

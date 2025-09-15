@@ -1,6 +1,6 @@
 import "./EventCard.css";
 
-function EventCard({ title, description, image }) {
+export default function EventCard({ title, description, image }) {
   return (
     <div className="card">
       <img src={image} alt={title} className="card__image" />
@@ -13,4 +13,3 @@ function EventCard({ title, description, image }) {
   );
 }
 
-export default EventCard;

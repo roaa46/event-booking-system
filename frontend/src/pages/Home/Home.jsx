@@ -1,6 +1,6 @@
 import EventCards from "../../components/HomeEventList/EventCards";
 import "./Home.css";
-function Home() {
+export default function Home() {
   return (
     <>
     <div className="container">
@@ -25,4 +25,4 @@ function Home() {
     </>
   );
 }
-export default Home;
+

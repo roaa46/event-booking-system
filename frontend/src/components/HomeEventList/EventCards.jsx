@@ -1,7 +1,7 @@
 import EventCard from "../HomeEventCard/EventCard";
 import "./EventCards.css";
 
-function EventCards() {
+export default function EventCards() {
   return (
     <section className="cards-container">
       <EventCard
@@ -25,4 +25,3 @@ function EventCards() {
   );
 }
 
-export default EventCards;

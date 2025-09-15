@@ -1,6 +1,6 @@
 import "./AboutUs.css";
 
-function AboutUs() {
+export default function AboutUs() {
   return (
     <section className="about">
       <div className="about-container">
@@ -22,4 +22,3 @@ function AboutUs() {
   );
 }
 
-export default AboutUs;

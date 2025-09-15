@@ -35,7 +35,7 @@ export async function viewProfile() {
 }
 
 // DELETE /api/auth/{id}
-export async function deleteProfile() {
-  const res = await apiClient.delete("${API}/me");
+export async function deleteAccount() {
+  const res = await apiClient.delete(`${API}/me`);
   return res.data;
 }
