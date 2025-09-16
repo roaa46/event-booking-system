@@ -89,7 +89,7 @@ A full-stack web application that lets users browse and book events, while provi
 ---
 
 # Demo
-![Event Booking System Demo](https://drive.google.com/uc?export=view&id=1j9JJcNP-QQOpWU4Wf2ZBf-6NdkYmzY1y)
+[Event Booking System Demo](https://drive.google.com/file/d/1j9JJcNP-QQOpWU4Wf2ZBf-6NdkYmzY1y/view?usp=sharing)
 
 ---
 
