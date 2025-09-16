@@ -4,6 +4,7 @@
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #2d2d2d;
+  text-align: center;
 }
 
 .profile__title {
@@ -25,10 +26,41 @@
   transform: translateY(-4px);
 }
 
-.profile__card p {
+/* Role section */
+.profile__role {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile__role-icon {
+  width: 80px;
+  height: 80px;
+  background: #0077cc;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.profile__role-text {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0077cc;
+  text-transform: capitalize;
+}
+
+/* Profile details */
+.profile__details p {
   font-size: 1rem;
   margin: 12px 0;
   line-height: 1.5;
+  text-align: left;
 }
 
 .profile__label {
@@ -36,6 +68,7 @@
   color: #0077cc;
 }
 
+/* Loading / error / empty states */
 .profile__loading,
 .profile__error,
 .profile__empty {
@@ -57,6 +90,7 @@
   color: #999;
 }
 
+/* Delete button */
 .profile__deleteBtn {
   margin-top: 1rem;
   padding: 10px 15px;

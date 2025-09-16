@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { viewProfile, deleteAccount } from "../../../api/authApi"; // استدعاء API للحذف
 import "./ViewProfilePage.css";
+import { FaUser, FaUserShield, FaCrown } from "react-icons/fa";
 import BackToButton from "../../../components/BackToButton/BackToButton";
 import { useNavigate } from "react-router-dom";
 
@@ -27,17 +28,30 @@ export default function ViewProfile() {
   }, []);
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this account?")) return;
+    if (!window.confirm("Are you sure you want to delete this account?"))
+      return;
 
     try {
       setDeleting(true);
       await deleteAccount();
       alert("Account deleted successfully.");
       navigate("/");
+      window.location.reload();
     } catch (err) {
       alert(err?.response?.data?.message || "Error deleting account");
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const getRoleIcon = (role) => {
+    switch (role?.toLowerCase()) {
+      case "admin":
+        return <FaUserShield />;
+      case "superadmin":
+        return <FaCrown />;
+      default:
+        return <FaUser />;
     }
   };
 
@@ -47,19 +61,41 @@ export default function ViewProfile() {
   return (
     <div className="profile">
       <h2 className="profile__title">My Profile</h2>
-      <BackToButton />
+
       {profile ? (
         <div className="profile__card">
-          <p><span className="profile__label">First Name:</span> {profile.firstName}</p>
-          <p><span className="profile__label">Last Name:</span> {profile.lastName}</p>
-          <p><span className="profile__label">Username:</span> {profile.username}</p>
-          <p><span className="profile__label">Email:</span> {profile.email}</p>
-          {profile.phone && (
-            <p><span className="profile__label">Phone:</span> {profile.phone}</p>
-          )}
-          <p><span className="profile__label">Role:</span> {profile.role}</p>
+          <div className="profile__role">
+            <div className="profile__role-icon">
+              {getRoleIcon(profile.role)}
+            </div>
+            <p className="profile__role-text">{profile.role}</p>
+          </div>
 
-          <button 
+          <div className="profile__details">
+            <p>
+              <span className="profile__label">First Name:</span>{" "}
+              {profile.firstName}
+            </p>
+            <p>
+              <span className="profile__label">Last Name:</span>{" "}
+              {profile.lastName}
+            </p>
+            <p>
+              <span className="profile__label">Username:</span>{" "}
+              {profile.username}
+            </p>
+            <p>
+              <span className="profile__label">Email:</span> {profile.email}
+            </p>
+            {profile.phone && (
+              <p>
+                <span className="profile__label">Phone:</span> {profile.phone}
+              </p>
+            )}
+          </div>
+
+          <BackToButton />
+          <button
             className="profile__deleteBtn"
             onClick={handleDelete}
             disabled={deleting}

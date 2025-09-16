@@ -27,7 +27,7 @@ public class BookingController {
     public ResponseEntity<Page<BookingResponseDTO>> getUserBookings(
             @PathVariable Long personId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "8") int size
     ) {
         Page<BookingResponseDTO> bookingResponseDTOPage = bookingService.getBookingsByUser(personId, page, size);
         return ResponseEntity.ok(bookingResponseDTOPage);

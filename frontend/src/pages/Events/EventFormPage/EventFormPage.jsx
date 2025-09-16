@@ -145,6 +145,7 @@ export default function EventFormPage() {
             <option value="Tech">Tech</option>
             <option value="Education">Education</option>
             <option value="Art">Art</option>
+            <option value="Other">Other</option>
           </select>
         </div>
 

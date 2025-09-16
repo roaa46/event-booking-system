@@ -11,25 +11,30 @@ import Notification from "../../../components/Notification/Notification";
 export default function EventsListPage() {
   const { user, loading } = useAuth();
   const [events, setEvents] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
   const [notification, setNotification] = useState(null);
 
+  const fetchEvents = async (pageNumber = 0) => {
+    try {
+      const res = await getEvents(pageNumber, 5);
+      setEvents(res.data.content);
+      setTotalPages(res.data.totalPages);
+      setPage(pageNumber);
+    } catch (err) {
+      console.error("Error fetching events", err);
+    }
+  };
+
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await getEvents();
-        setEvents(res.data.content);
-      } catch (err) {
-        console.error("Error fetching events", err);
-      }
-    };
-    fetchEvents();
+    fetchEvents(0);
   }, []);
 
   const handleDelete = async (id) => {
     try {
       await deleteEvent(id);
-      setEvents(events.filter((e) => e.id !== id));
+      fetchEvents(page);
     } catch (err) {
       console.error("Delete failed", err);
     }
@@ -40,27 +45,17 @@ export default function EventsListPage() {
 
     try {
       await bookEvent(user.id, eventId);
-
       const bookings = await getUserBookings(user.id);
-      const totalTickets = bookings.content.reduce(
-        (sum, b) => sum + b.quantity,
-        0
-      );
+      const totalTickets = bookings.content.reduce((sum, b) => sum + b.quantity, 0);
 
       setNotification({
         type: "success",
         title: "Ticket booked",
         message: `You booked 1 ticket.\nTotal tickets booked: ${totalTickets}`,
-        actions: [
-          { label: "View Bookings", onClick: () => navigate("/bookings") },
-        ],
+        actions: [{ label: "View Bookings", onClick: () => navigate("/bookings") }],
       });
     } catch (err) {
-      setNotification({
-        type: "error",
-        title: "Booking failed",
-        message: "Please try again.",
-      });
+      setNotification({ type: "error", title: "Booking failed", message: "Please try again." });
     }
   };
 
@@ -74,24 +69,14 @@ export default function EventsListPage() {
     <div className="page-events">
       {user.role === "USER" && (
         <div className="view-bookings-container">
-          <button className="btn" onClick={() => navigate("/bookings")}>
-            View Bookings
-          </button>
-          <button className="btn" onClick={() => navigate("/profile")}>
-            View Profile
-          </button>
+          <button className="btn" onClick={() => navigate("/bookings")}>View Bookings</button>
+          <button className="btn" onClick={() => navigate("/profile")}>View Profile</button>
         </div>
       )}
       {user.role === "ADMIN" && <BackToButton />}
-
       {user.role === "ADMIN" && (
         <div className="add-event-container">
-          <button
-            className="btn"
-            onClick={() => navigate("/admins/events/add")}
-          >
-            Add Event
-          </button>
+          <button className="btn" onClick={() => navigate("/admins/events/add")}>Add Event</button>
         </div>
       )}
 

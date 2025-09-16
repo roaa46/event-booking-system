@@ -1,14 +1,14 @@
+import { FaCalendarAlt, FaMapMarkerAlt, FaDollarSign, FaUser, FaTicketAlt, FaTag, FaFileAlt } from "react-icons/fa";
 import "./Cards.css";
 
 export default function BookingCard({ booking }) {
-  const { personName, eventName, bookingDateTime, quantity } = booking;
+  const { eventName, bookingDateTime, quantity } = booking;
 
   return (
     <div className="card booking">
       <h3 className="card-title">{eventName}</h3>
-      <p className="card-text"><strong>User:</strong> {personName}</p>
-      <p className="card-text"><strong>Booking Date:</strong> {new Date(bookingDateTime).toLocaleString()}</p>
-      <p className="card-text"><strong>Quantity:</strong> {quantity}</p>
+      <p className="card-text"><FaCalendarAlt className="detail-icon" /> {new Date(bookingDateTime).toLocaleString()}</p>
+      <p className="card-text"><FaTicketAlt className="detail-icon" /> Quantity: {quantity}</p>
     </div>
   );
 }

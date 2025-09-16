@@ -1,4 +1,5 @@
 import EventActions from "../EventActions/EventActions";
+import { FaCalendarAlt, FaMapMarkerAlt, FaDollarSign, FaTag } from "react-icons/fa";
 import "./Cards.css";
 
 export default function EventCard({ event, role, onUpdate, onDelete, onBook, onView }) {
@@ -18,20 +19,29 @@ export default function EventCard({ event, role, onUpdate, onDelete, onBook, onV
 
       <div className="card-content">
         <h3 className="card-title">{event.name}</h3>
-        <p className="card-text">{event.description}</p>
-        <p className="card-text">Category: {event.category}</p>
-        <p className="card-text">
-          {event.zonedDateTime
-            ? new Date(event.zonedDateTime).toLocaleString()
-            : "No date"}
-        </p>
-        <p className="card-text">Venue: {event.venue}</p>
-        <p className="card-text">
-          {event.price !== undefined ? `$${event.price.toFixed(2)}` : "Free"}
-        </p>
+        <p className="card-description">{event.description}</p>
+        
+        <div className="event-details">
+          <div className="detail-item">
+            <FaTag className="detail-icon" />
+            <span>{event.category}</span>
+          </div>
+          <div className="detail-item">
+            <FaCalendarAlt className="detail-icon" />
+            <span>{event.zonedDateTime ? new Date(event.zonedDateTime).toLocaleString() : "No date"}</span>
+          </div>
+          <div className="detail-item">
+            <FaMapMarkerAlt className="detail-icon" />
+            <span>{event.venue}</span>
+          </div>
+          <div className="detail-item">
+            <FaDollarSign className="detail-icon" />
+            <span>{event.price !== undefined ? `${event.price.toFixed(2)}` : "Free"}</span>
+          </div>
+        </div>
       </div>
 
-      <EventActions
+      <EventActions 
         role={role}
         onUpdate={onUpdate}
         onDelete={onDelete}
